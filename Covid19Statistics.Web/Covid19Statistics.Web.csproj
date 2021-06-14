@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="27.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Covid19Statistics.Data\Covid19Statistics.Data.csproj" />
     <ProjectReference Include="..\Covid19Statistics.Services\Covid19Statistics.Services.csproj" />
     <ProjectReference Include="..\Covid19Statistics\Covid19Statistics.csproj" />
