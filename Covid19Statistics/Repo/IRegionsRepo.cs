@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Covid19Statistics.Repo
 {
@@ -14,6 +15,6 @@ namespace Covid19Statistics.Repo
         /// get the regiones
         /// </summary>
         /// <returns></returns>
-        public List<RegionOutputDto> GetRegionsAsync();
+        public Task<List<RegionOutputDto>> GetRegionsAsync();
     }
 }
