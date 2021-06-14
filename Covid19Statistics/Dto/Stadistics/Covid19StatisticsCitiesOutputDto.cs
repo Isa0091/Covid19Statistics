@@ -4,22 +4,20 @@ using System.Text;
 
 namespace Covid19Statistics.Dto.Stadistics
 {
-    /// <summary>
-    /// Data filter
-    /// </summary>
-    public class FilterCovid19Statistics
+    public class Covid19StatisticsCitiesOutputDto
     {
-
         /// <summary>
-        /// Iso code of region
+        /// Name of city
         /// </summary>
-        public string RegionIsoCode { get; set; }
-
+        public string Name { get; set; }
         /// <summary>
-        /// Iso code of region
+        /// Cases confirmed
         /// </summary>
-        public string ProvinceName { get; set; }
-
+        public int Confirmed { get; set; }
+        /// <summary>
+        /// Cases death
+        /// </summary>
+        public int Deaths { get; set; }
         /// <summary>
         /// Date
         /// </summary>

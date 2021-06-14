@@ -10,18 +10,27 @@ namespace Covid19Statistics.Dto.Stadistics
     public class Covid19StatisticsOutputDto
     {
         /// <summary>
+        /// 
+        /// </summary>
+        public Covid19StatisticsOutputDto()
+        {
+            Cities = new List<Covid19StatisticsCitiesOutputDto>();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RegionName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string IsocodeRegion { get; set; }
+        /// <summary>
         /// province of the stadistics
         /// </summary>
-        public string Province { get; set; }
-
+        public string ProvinceName { get; set; }
         /// <summary>
-        /// number of cases
+        /// Cities
         /// </summary>
-        public string Cases { get; set; }
-
-        /// <summary>
-        /// Deaths
-        /// </summary>
-        public string Deaths { get; set; }
+        public List<Covid19StatisticsCitiesOutputDto> Cities { get; set; }
     }
 }

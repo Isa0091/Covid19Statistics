@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Covid19Statistics\Covid19Statistics.csproj" />
+  </ItemGroup>
+
 </Project>
