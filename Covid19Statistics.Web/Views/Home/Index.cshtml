@@ -1,4 +1,7 @@
-﻿@{
+﻿@model Covid19Statistics.Web.Models.Report.ReportDetailOutput
+@using Covid19Statistics.Web.Models.Report
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +9,30 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<form method="get" asp-Controller="Home" asp-action="Index">
+    <select class="form-control " asp-for="RegionIso" name="Iso" asp-items="Model.GetSelectRegions()">
+        <option value="">[Regions]</option>
+    </select>
+    <input type="submit" value="Report" class="btn btn-primary"/>
+ </form>
+<table class="table">
+    <thead>
+        <tr>
+            <td>@Html.Raw(string.IsNullOrEmpty(Model.RegionIso) ? "REGION" : "PROVINCE")</td>
+            <td>CASES</td>
+            <td>DEATHS</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ReportDataOutput item in Model.ReportDataOutput)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Cases</td>
+                <td>@item.Deaths</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
