@@ -16,6 +16,12 @@ namespace Covid19Statistics.Repo
         /// </summary>
         /// <param name="filterCovid">filters</param>
         /// <returns></returns>
-        public Task<List<Covid19StatisticsOutputDto>> GetCovid19StatisticsAsync(FilterCovid19Statistics filterCovid);
+        Task<List<Covid19StatisticsOutputDto>> GetCovid19StatisticsAsync(FilterCovid19Statistics filterCovid);
+
+        /// <summary>
+        /// Get list of covid without filters
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Covid19StatisticsOutputDto>> GetCovid19StatisticsAsync();
     }
 }

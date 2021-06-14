@@ -21,12 +21,27 @@ namespace Covid19Statistics.Data.Repo
         public async Task<List<Covid19StatisticsOutputDto>> GetCovid19StatisticsAsync(FilterCovid19Statistics filterCovid)
         {
 
-            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = new List<Covid19StatisticsOutputDto>();
             ReportListPaginated  reportListPaginated =await _covidApi.ReportsAsync(filterCovid.Date, null,filterCovid.RegionIsoCode,null,filterCovid.ProvinceName,null,(int?)null);
-            List<Province> DataResponse =reportListPaginated.Data.ToList();
+            List<Province> DataProvincesResponse =reportListPaginated.Data.ToList();
+            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = GetCovid19Statistics(DataProvincesResponse);
+            return covid19StatisticsOutputDto;
+
+        }
+
+        public async Task<List<Covid19StatisticsOutputDto>> GetCovid19StatisticsAsync()
+        {
+            ReportListPaginated reportListPaginated = await _covidApi.ReportsAsync(null, null, null, null,null, null, (int?)null);
+            List<Province> DataProvincesResponse = reportListPaginated.Data.ToList();
+            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = GetCovid19Statistics(DataProvincesResponse);
+            return covid19StatisticsOutputDto;
+        }
 
 
-            foreach (Province province in DataResponse)
+        #region Private methods
+        private List<Covid19StatisticsOutputDto> GetCovid19Statistics(List<Province> provinces)
+        {
+            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = new List<Covid19StatisticsOutputDto>();
+            foreach (Province province in provinces)
             {
                 List<Covid19StatisticsCitiesOutputDto> listCities = new List<Covid19StatisticsCitiesOutputDto>();
 
@@ -51,14 +66,16 @@ namespace Covid19Statistics.Data.Repo
 
                 covid19StatisticsOutputDto.Add(new Covid19StatisticsOutputDto()
                 {
-                     Cities= listCities,
-                     IsocodeRegion= province.Iso,
-                     ProvinceName= province.Province1,
-                     RegionName= province.Name
+                    Cities = listCities,
+                    IsocodeRegion = province.Iso,
+                    ProvinceName = province.Province1,
+                    RegionName = province.Name
                 });
             }
 
             return covid19StatisticsOutputDto;
         }
+
+        #endregion
     }
 }
