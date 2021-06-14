@@ -25,16 +25,16 @@ namespace Covid19Statistics.Services
 
             List<Covid19StatisticsOutputDto> listCovidStadistic=await _covid19StatisticsRepo.GetCovid19StatisticsAsync();
 
-            regionStadisticsOutputDtos=listCovidStadistic.GroupBy(z => z.IsocodeRegion).Select(a => new RegionStadisticsOutputDto() {
+            regionStadisticsOutputDtos=listCovidStadistic.GroupBy(z => z.IsoCodeRegion).Select(a => new RegionStadisticsOutputDto() {
 
-                 Confirmed= a.Sum(x=>x.Cities.Sum(a=>a.Confirmed)),
-                 Deaths= a.Sum(x => x.Cities.Sum(a => a.Deaths)),
-                 Name= a.First().RegionName
+                 Confirmed= a.Sum(x=>x.Confirmed),
+                 Deaths= a.Sum(x => x.Deaths),
+                 Name= a.First().IsoCodeRegion
 
             }).ToList();
 
-            return regionStadisticsOutputDtos.OrderByDescending(z=> z.Confirmed)
-                .OrderByDescending(z =>z.Deaths).Take(10).ToList();
+            return regionStadisticsOutputDtos.OrderByDescending(z=> z.Deaths)
+                .OrderByDescending(z =>z.Confirmed).Take(10).ToList();
         }
 
 
@@ -53,8 +53,8 @@ namespace Covid19Statistics.Services
 
             }).ToList();
 
-            return provincesStadistics.OrderByDescending(z => z.Confirmed)
-               .OrderByDescending(z => z.Deaths).Take(10).ToList();
+            return provincesStadistics.OrderByDescending(z => z.Deaths)
+               .OrderByDescending(z => z.Confirmed).Take(10).ToList();
         }
     }
 }

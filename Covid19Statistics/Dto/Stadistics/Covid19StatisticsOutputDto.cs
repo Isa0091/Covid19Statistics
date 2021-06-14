@@ -23,11 +23,20 @@ namespace Covid19Statistics.Dto.Stadistics
         /// <summary>
         /// 
         /// </summary>
-        public string IsocodeRegion { get; set; }
+        public string IsoCodeRegion { get; set; }
         /// <summary>
         /// province of the stadistics
         /// </summary>
         public string ProvinceName { get; set; }
+
+        /// <summary>
+        /// Cases confirmed
+        /// </summary>
+        public int Confirmed { get; set; }
+        /// <summary>
+        /// Cases death
+        /// </summary>
+        public int Deaths { get; set; }
         /// <summary>
         /// Cities
         /// </summary>

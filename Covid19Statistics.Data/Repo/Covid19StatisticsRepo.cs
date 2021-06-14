@@ -44,32 +44,37 @@ namespace Covid19Statistics.Data.Repo
             foreach (Province province in provinces)
             {
                 List<Covid19StatisticsCitiesOutputDto> listCities = new List<Covid19StatisticsCitiesOutputDto>();
+                KeyValuePair<string, object> dataCovid = province.AdditionalProperties.FirstOrDefault(z => z.Key == "region");
+                DataStadisticsProvince dataStadistics = null;
 
-                List<string> dataCovid = province.AdditionalProperties.Where(z => z.Key == "cities")
-                     .Select(z => JsonConvert.SerializeObject(z.Value)).ToList();
-
-
-                dataCovid.ForEach(z =>
+                if (dataCovid.Value != null)
                 {
+                   string dataProvince= JsonConvert.SerializeObject(dataCovid.Value);
+                    dataStadistics = JsonConvert.DeserializeObject<DataStadisticsProvince>(dataProvince);
+                    dataStadistics.cities.ForEach(z =>
+                        {
+                            listCities.Add(new Covid19StatisticsCitiesOutputDto()
+                            {
+                                Confirmed = z.Confirmed,
+                                Date = z.Date,
+                                Deaths = z.Deaths,
+                                Name = z.Name
 
-                    DataStadisticsCities dataStadistics = JsonConvert.DeserializeObject<DataStadisticsCities>(z);
-                    listCities.Add(new Covid19StatisticsCitiesOutputDto()
-                    {
-                        Confirmed = dataStadistics.Confirmed,
-                        Date = dataStadistics.Date,
-                        Deaths = dataStadistics.Deaths,
-                        Name = dataStadistics.Name
+                            });
+                        });
+                }
 
-                    });
-                });
-
+                KeyValuePair<string, object> confirmed = province.AdditionalProperties.FirstOrDefault(z => z.Key == "confirmed");
+                KeyValuePair<string, object> deaths = province.AdditionalProperties.FirstOrDefault(z => z.Key == "deaths");
 
                 covid19StatisticsOutputDto.Add(new Covid19StatisticsOutputDto()
                 {
                     Cities = listCities,
-                    IsocodeRegion = province.Iso,
-                    ProvinceName = province.Province1,
-                    RegionName = province.Name
+                    IsoCodeRegion = dataStadistics?.ISO,
+                    ProvinceName = dataStadistics?.Province,
+                    RegionName = dataStadistics?.Name,
+                    Confirmed= confirmed.Value != null ? Convert.ToInt32(confirmed.Value) : 0,
+                    Deaths= deaths.Value != null ? Convert.ToInt32(deaths.Value) : 0
                 });
             }
 
