@@ -18,27 +18,27 @@ namespace Covid19Statistics.Data.Repo
         {
             _covidApi = covidApi;
         }
-        public async Task<List<Covid19StatisticsOutputDto>> GetCovid19StatisticsAsync(FilterCovid19Statistics filterCovid)
+        public async Task<List<Covid19StatisticsOutputDto>> GetCovid19StadisticsAsync(FilterCovid19Statistics filterCovid)
         {
 
             ReportListPaginated  reportListPaginated =await _covidApi.ReportsAsync(filterCovid.Date, null,filterCovid.RegionIsoCode,null,filterCovid.ProvinceName,null,(int?)null);
             List<Province> DataProvincesResponse =reportListPaginated.Data.ToList();
-            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = GetCovid19Statistics(DataProvincesResponse);
+            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = GetCovid19Stadistics(DataProvincesResponse);
             return covid19StatisticsOutputDto;
 
         }
 
-        public async Task<List<Covid19StatisticsOutputDto>> GetCovid19StatisticsAsync()
+        public async Task<List<Covid19StatisticsOutputDto>> GetCovid19StadisticsAsync()
         {
             ReportListPaginated reportListPaginated = await _covidApi.ReportsAsync(null, null, null, null,null, null, (int?)null);
             List<Province> DataProvincesResponse = reportListPaginated.Data.ToList();
-            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = GetCovid19Statistics(DataProvincesResponse);
+            List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = GetCovid19Stadistics(DataProvincesResponse);
             return covid19StatisticsOutputDto;
         }
 
 
         #region Private methods
-        private List<Covid19StatisticsOutputDto> GetCovid19Statistics(List<Province> provinces)
+        private List<Covid19StatisticsOutputDto> GetCovid19Stadistics(List<Province> provinces)
         {
             List<Covid19StatisticsOutputDto> covid19StatisticsOutputDto = new List<Covid19StatisticsOutputDto>();
             foreach (Province province in provinces)

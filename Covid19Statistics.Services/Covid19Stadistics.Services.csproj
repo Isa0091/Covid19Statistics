@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Covid19Statistics\Covid19Statistics.csproj" />
+    <ProjectReference Include="..\Covid19Statistics\Covid19Stadistics.csproj" />
   </ItemGroup>
 
 </Project>

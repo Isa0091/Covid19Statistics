@@ -23,7 +23,7 @@ namespace Covid19Statistics.Services
         {
             List<RegionStadisticsOutputDto> regionStadisticsOutputDtos = new List<RegionStadisticsOutputDto>();
 
-            List<Covid19StatisticsOutputDto> listCovidStadistic=await _covid19StatisticsRepo.GetCovid19StatisticsAsync();
+            List<Covid19StatisticsOutputDto> listCovidStadistic=await _covid19StatisticsRepo.GetCovid19StadisticsAsync();
 
             regionStadisticsOutputDtos=listCovidStadistic.GroupBy(z => z.IsoCodeRegion).Select(a => new RegionStadisticsOutputDto() {
 
@@ -42,7 +42,7 @@ namespace Covid19Statistics.Services
         {
             List<ProvincesStadisticsOutputDto> provincesStadistics = new List<ProvincesStadisticsOutputDto>();
 
-            List<Covid19StatisticsOutputDto> listCovidStadistic = await _covid19StatisticsRepo.GetCovid19StatisticsAsync(filterCovid19Statistics);
+            List<Covid19StatisticsOutputDto> listCovidStadistic = await _covid19StatisticsRepo.GetCovid19StadisticsAsync(filterCovid19Statistics);
 
             provincesStadistics = listCovidStadistic.Select(a => new ProvincesStadisticsOutputDto()
             {
