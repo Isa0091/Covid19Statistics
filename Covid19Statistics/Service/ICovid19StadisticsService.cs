@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Covid19Statistics.Service
 {
-    public interface ICovid19StatisticsService
+    public interface ICovid19StadisticsService
     {
         /// <summary>
         /// get data Top cases by regions

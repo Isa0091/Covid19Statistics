@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Covid19Statistics.Services
 {
-    public class Covid19StatisticsService : ICovid19StatisticsService
+    public class Covid19StadisticsService : ICovid19StadisticsService
     {
         private readonly ICovid19StatisticsRepo _covid19StatisticsRepo;
-        public Covid19StatisticsService(
+        public Covid19StadisticsService(
             ICovid19StatisticsRepo covid19StatisticsRepo)
         {
             _covid19StatisticsRepo = covid19StatisticsRepo;

@@ -41,7 +41,7 @@ namespace Covid19Statistics.Web
 
 
             //Services
-            services.AddScoped<ICovid19StatisticsService, Covid19StatisticsService>();
+            services.AddScoped<ICovid19StadisticsService, Covid19StadisticsService>();
             services.AddScoped<IRegionsService, RegionsService>();
 
             //Providers

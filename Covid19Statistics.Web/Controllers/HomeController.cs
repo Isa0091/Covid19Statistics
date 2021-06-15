@@ -25,13 +25,13 @@ namespace Covid19Statistics.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly ICovid19StatisticsService _covid19StatisticsService;
+        private readonly ICovid19StadisticsService _covid19StatisticsService;
         private readonly IRegionsService _regionsService;
         private readonly ICsvConvertProvider _csvConvertProvider;
         private readonly IJsonConvertProvider _jsonConvertProvider;
         private readonly IXmlConvertProvider _xmlConvertProvider;
         public HomeController(
-            ICovid19StatisticsService covid19StatisticsService,
+            ICovid19StadisticsService covid19StatisticsService,
             IRegionsService regionsService,
             ICsvConvertProvider csvConvertProvider,
             IJsonConvertProvider jsonConvertProvider,
