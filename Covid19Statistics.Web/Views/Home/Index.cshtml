@@ -5,44 +5,62 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">
+<div class="aling-left">
+    <h4 class="aling-left">
         TOP 10 COVID-19 CASES
-    </h1>
+    </h4>
 </div>
+<div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="get" asp-Controller="Home" asp-action="Index">
+                <table class="table borderless">
+                    <tr>
+                        <td>
+                            <select class="form-control border-redon-drop" asp-for="RegionIso" name="iso" asp-items="Model.GetSelectRegions()">
+                                <option value="">[Regions]</option>
+                            </select>
+                        </td>
+                        <td style="padding-left:30px">
+                            <input type="submit" value="Report" class="btn btn-outline-secondary border-redon" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
 
-<div class="row">
-    <div class="col-12">
-        <form method="get" asp-Controller="Home" asp-action="Index">
-            <div class="col-6">
-                <select class="form-control " asp-for="RegionIso" name="iso" asp-items="Model.GetSelectRegions()">
-                    <option value="">[Regions]</option>
-                </select>
+        <div class="col-md-8 right-data" >
+            <div class="btn-group">
+                <a href="@Url.Action("GetXmlReport", new { iso = Model.RegionIso })" class="btn btn-outline-secondary btn-outline border-redon">XML</a>
+                <a href="@Url.Action("GetJsonReport", new { iso = Model.RegionIso })" class="btn btn-outline-secondary btn-outline border-redon">JSON</a>
+                <a href="@Url.Action("GetCsvReport", new { iso = Model.RegionIso })" class="btn btn-outline-secondary border-redon" >CSV</a>
             </div>
-            <div class="col-6">
-                <input type="submit" value="Report" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
+    <hr>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <td>@Html.Raw(string.IsNullOrEmpty(Model.RegionIso) ? "REGION" : "PROVINCE")</td>
-            <td>CASES</td>
-            <td>DEATHS</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (ReportDataOutput item in Model.ReportDataOutput)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Cases</td>
-                <td>@item.Deaths</td>
+<div class="container-data">
+    <table class="table borderless" border="0">
+        <thead>
+            <tr class="center-data">
+                <td class="center-data-title">@Html.Raw(string.IsNullOrEmpty(Model.RegionIso) ? "REGION" : "PROVINCE")</td>
+                <td class="center-data-title">CASES</td>
+                <td class="center-data-title">DEATHS</td>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (ReportDataOutput item in Model.ReportDataOutput)
+            {
+                <tr class="center-data">
+                    <td class="center-data">@item.Name</td>
+                    <td class="center-data">@item.Cases</td>
+                    <td class="center-data">@item.Deaths</td>
+                </tr>
+            }
+        </tbody>
 
-</table>
+    </table>
+
+</div>

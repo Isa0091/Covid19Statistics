@@ -69,3 +69,59 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.divBorder {
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    border-color: black;
+}
+
+.border-redon {
+    border: 1px solid #000000;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+    padding: 8px;
+    border-color: dimgrey;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-weight: 600;
+    font-size: 16px;
+}
+.border-redon-drop {
+    border: 1px solid #000000;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+    border-color: dimgrey;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: left !important;
+}
+
+.center-data {
+    text-align: center !important;
+}
+
+.right-data {
+    text-align: right !important;
+}
+
+.borderless td, .borderless th {
+    border: none;
+}
+
+.center-data-title {
+    text-align: center !important;
+    font-weight:650 !important;
+    color:black;
+}
+
+.container-data {
+    padding-top: 1%;
+    margin-top: 5%;
+    border-color:  lightgray !important;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}

@@ -73,7 +73,7 @@ namespace Covid19Statistics.Web.Controllers
         {
             List<ReportDataOutput> reportData = await GetListReportOutput(iso);
             byte[] result = _xmlConvertProvider.ConvertToXml<List<ReportDataOutput>>(reportData);
-            return File(result, "application/xml", $"ReportCovid_{DateTime.UtcNow}.xml");
+            return File(result, "application/xml", $"ReportCovid_{DateTime.UtcNow.Date.ToString("dd/MM/yyyy")}.xml");
         }
 
         [HttpGet]
@@ -81,7 +81,7 @@ namespace Covid19Statistics.Web.Controllers
         {
             List<ReportDataOutput> reportData = await GetListReportOutput(iso);
             byte[] result = _jsonConvertProvider.ConvertToJson<List<ReportDataOutput>>(reportData);
-            return File(result, "application/json", $"ReportCovid_{DateTime.UtcNow}.json");
+            return File(result, "application/json", $"ReportCovid_{DateTime.UtcNow.Date.ToString("dd/MM/yyyy")}.json");
         }
 
         [HttpGet]
@@ -89,7 +89,7 @@ namespace Covid19Statistics.Web.Controllers
         {
             List<ReportDataOutput> reportData = await GetListReportOutput(iso);
             byte[] result = _csvConvertProvider.ConverToCsv<ReportDataOutput>(reportData);
-            return File(result, "text/csv", $"ReportCovid_{DateTime.UtcNow}.csv");
+            return File(result, "text/csv", $"ReportCovid_{DateTime.UtcNow.Date.ToString("dd/MM/yyyy")}.csv");
         }
 
 

@@ -24,7 +24,7 @@ namespace Covid19Statistics.Providers
 
             }
 
-            if(string.IsNullOrEmpty(xmlrequest))
+            if(!string.IsNullOrEmpty(xmlrequest))
                 return  System.Text.Encoding.Unicode.GetBytes(xmlrequest);
 
             return null;
