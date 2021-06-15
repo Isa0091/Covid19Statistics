@@ -6,16 +6,26 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">
+        TOP 10 COVID-19 CASES
+    </h1>
 </div>
 
-<form method="get" asp-Controller="Home" asp-action="Index">
-    <select class="form-control " asp-for="RegionIso" name="Iso" asp-items="Model.GetSelectRegions()">
-        <option value="">[Regions]</option>
-    </select>
-    <input type="submit" value="Report" class="btn btn-primary"/>
- </form>
+<div class="row">
+    <div class="col-12">
+        <form method="get" asp-Controller="Home" asp-action="Index">
+            <div class="col-6">
+                <select class="form-control " asp-for="RegionIso" name="iso" asp-items="Model.GetSelectRegions()">
+                    <option value="">[Regions]</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <input type="submit" value="Report" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>

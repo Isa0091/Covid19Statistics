@@ -1,5 +1,6 @@
 ﻿using Covid19Statistics.Dto.Region;
 using Covid19Statistics.Dto.Stadistics;
+using Covid19Statistics.Providers;
 using Covid19Statistics.Service;
 using Covid19Statistics.Web.Models;
 using Covid19Statistics.Web.Models.Report;
@@ -26,51 +27,110 @@ namespace Covid19Statistics.Web.Controllers
 
         private readonly ICovid19StatisticsService _covid19StatisticsService;
         private readonly IRegionsService _regionsService;
-
+        private readonly ICsvConvertProvider _csvConvertProvider;
+        private readonly IJsonConvertProvider _jsonConvertProvider;
+        private readonly IXmlConvertProvider _xmlConvertProvider;
         public HomeController(
             ICovid19StatisticsService covid19StatisticsService,
-            IRegionsService regionsService)
+            IRegionsService regionsService,
+            ICsvConvertProvider csvConvertProvider,
+            IJsonConvertProvider jsonConvertProvider,
+            IXmlConvertProvider xmlConvertProvider)
         {
             _covid19StatisticsService = covid19StatisticsService;
             _regionsService = regionsService;
+            _csvConvertProvider = csvConvertProvider;
+            _jsonConvertProvider = jsonConvertProvider;
+            _xmlConvertProvider = xmlConvertProvider;
+
         }
 
-        public async Task<IActionResult> Index(string Iso)
+        [HttpGet]
+        public async Task<IActionResult> Index(string iso)
         {
             ReportDetailOutput reportDetailOutput = new ReportDetailOutput()
             {
-                 RegionIso= Iso
+                RegionIso = iso
             };
 
-            List<RegionOutputDto>  listRegionOutputDto = await _regionsService.GetRegionsAsync();
+            List<RegionOutputDto> listRegionOutputDto = await _regionsService.GetRegionsAsync();
             List<RegionOutput> regionOutputs = listRegionOutputDto.Select(z => new RegionOutput()
             {
-                 Iso=z.Code,
-                 Name= z.Name
+                Iso = z.Code,
+                Name = z.Name
 
             }).ToList();
 
             reportDetailOutput.ListRegion = regionOutputs;
+            reportDetailOutput.ReportDataOutput = await GetListReportOutput(iso);
 
-            if (string.IsNullOrEmpty(Iso))
+            return View(reportDetailOutput);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetXmlReport(string iso)
+        {
+            List<ReportDataOutput> reportData = await GetListReportOutput(iso);
+            byte[] result = _xmlConvertProvider.ConvertToXml<List<ReportDataOutput>>(reportData);
+            return File(result, "application/xml", $"ReportCovid_{DateTime.UtcNow}.xml");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetJsonReport(string iso)
+        {
+            List<ReportDataOutput> reportData = await GetListReportOutput(iso);
+            byte[] result = _jsonConvertProvider.ConvertToJson<List<ReportDataOutput>>(reportData);
+            return File(result, "application/json", $"ReportCovid_{DateTime.UtcNow}.json");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCsvReport(string iso)
+        {
+            List<ReportDataOutput> reportData = await GetListReportOutput(iso);
+            byte[] result = _csvConvertProvider.ConverToCsv<ReportDataOutput>(reportData);
+            return File(result, "text/csv", $"ReportCovid_{DateTime.UtcNow}.csv");
+        }
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        #region private class
+
+        /// <summary>
+        /// Get data for the report
+        /// </summary>
+        /// <param name="iso"></param>
+        /// <returns></returns>
+        private async Task<List<ReportDataOutput>> GetListReportOutput(string iso)
+        {
+
+            List<ReportDataOutput> ReportDataOutput = new List<ReportDataOutput>();
+            if (string.IsNullOrEmpty(iso))
             {
                 List<RegionStadisticsOutputDto> regionStadistics = await _covid19StatisticsService.GetTopCasesCovidByRegions();
 
-                reportDetailOutput.ReportDataOutput= regionStadistics.Select(z => new ReportDataOutput()
+                ReportDataOutput = regionStadistics.Select(z => new ReportDataOutput()
                 {
-                     Name= z.Name,
-                     Cases= z.Confirmed,
-                     Deaths= z.Deaths
+                    Name = z.Name,
+                    Cases = z.Confirmed,
+                    Deaths = z.Deaths
                 }).ToList();
             }
 
-            if (string.IsNullOrEmpty(Iso)==false)
+            if (string.IsNullOrEmpty(iso) == false)
             {
-                List<ProvincesStadisticsOutputDto> provincesStadisticsOutputs = 
-                    await _covid19StatisticsService.GetTopCasesCovidFilter(new FilterCovid19Statistics(){ 
-                       RegionIsoCode= Iso
-                });
-                reportDetailOutput.ReportDataOutput = provincesStadisticsOutputs.Select(z => new ReportDataOutput()
+                List<ProvincesStadisticsOutputDto> provincesStadisticsOutputs =
+                    await _covid19StatisticsService.GetTopCasesCovidFilter(new FilterCovid19Statistics()
+                    {
+                        RegionIsoCode = iso
+                    });
+                ReportDataOutput = provincesStadisticsOutputs.Select(z => new ReportDataOutput()
                 {
                     Name = z.Name,
                     Cases = z.Confirmed,
@@ -79,82 +139,8 @@ namespace Covid19Statistics.Web.Controllers
             }
 
 
-            string data = SerializeXmlRequest<List<ReportDataOutput>>(reportDetailOutput.ReportDataOutput);
-            var result = System.Text.Encoding.Unicode.GetBytes(data);
-
-            return File(result, "application/xml", $"export_{DateTime.UtcNow.Ticks}.xml");
-
-            byte[] data2= SerializeCsv(reportDetailOutput.ReportDataOutput);
-            return File(data2, "text/csv", $"export_{DateTime.UtcNow.Ticks}.csv");
-
-            return View(reportDetailOutput);
+            return ReportDataOutput;
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        /// <summary>
-        /// Serializa una clase a xml
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private string SerializeXmlRequest<T>(T data)
-        {
-            XmlSerializer xsSubmit = new XmlSerializer(data.GetType());
-            var xmlrequest = "";
-
-            using (var sww = new StringWriter())
-            {
-                using (XmlWriter writer = XmlWriter.Create(sww))
-                {
-                    xsSubmit.Serialize(writer, data);
-                    xmlrequest = sww.ToString();
-                }
-
-            }
-
-            return xmlrequest;
-        }
-
-
-        /// <summary>
-        /// Serializa una clase a xml
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private string SerializeJson<T>(T data)
-        {
-            return JsonConvert.SerializeObject(data);
-        }
-
-        /// <summary>
-        /// Serializa una clase a xml
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private byte[] SerializeCsv<T>(IEnumerable<T> data)
-        {
-            var cc = new CsvConfiguration(new System.Globalization.CultureInfo("en-US"));
-            using (var ms = new MemoryStream())
-            {
-                using (var sw = new StreamWriter(stream: ms, encoding: new UTF8Encoding(true)))
-                {
-                    using (var cw = new CsvWriter(sw, cc))
-                    {
-                        cw.WriteRecords(data);
-                    }// The stream gets flushed here.
-                }
-                return ms.ToArray();
-            }
-
-      }
+        #endregion
     }
 }

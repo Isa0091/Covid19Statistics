@@ -1,4 +1,5 @@
 using Covid19Statistics.Data.Repo;
+using Covid19Statistics.Providers;
 using Covid19Statistics.Repo;
 using Covid19Statistics.Service;
 using Covid19Statistics.Services;
@@ -43,6 +44,10 @@ namespace Covid19Statistics.Web
             services.AddScoped<ICovid19StatisticsService, Covid19StatisticsService>();
             services.AddScoped<IRegionsService, RegionsService>();
 
+            //Providers
+            services.AddScoped<ICsvConvertProvider, CsvConvertProvider>();
+            services.AddScoped<IJsonConvertProvider, JsonConvertProvider>();
+            services.AddScoped<IXmlConvertProvider, XmlConvertProvider>();
 
             //httpclients
             ConfigurationApiCovid configurationApiCovid = Configuration
