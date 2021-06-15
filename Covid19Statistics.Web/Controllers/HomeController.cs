@@ -57,7 +57,7 @@ namespace Covid19Statistics.Web.Controllers
             List<RegionOutput> regionOutputs = listRegionOutputDto.Select(z => new RegionOutput()
             {
                 Iso = z.Code,
-                Name = z.Name
+                Name = z.Name.ToUpper()
 
             }).ToList();
 
@@ -117,7 +117,7 @@ namespace Covid19Statistics.Web.Controllers
 
                 ReportDataOutput = regionStadistics.Select(z => new ReportDataOutput()
                 {
-                    Name = z.Name,
+                    Name = z.Name.ToUpper(),
                     Cases = z.Confirmed,
                     Deaths = z.Deaths
                 }).ToList();
@@ -132,7 +132,7 @@ namespace Covid19Statistics.Web.Controllers
                     });
                 ReportDataOutput = provincesStadisticsOutputs.Select(z => new ReportDataOutput()
                 {
-                    Name = z.Name,
+                    Name = z.Name.ToUpper(),
                     Cases = z.Confirmed,
                     Deaths = z.Deaths
                 }).ToList();

@@ -67,6 +67,7 @@ namespace Covid19Statistics.Data.Repo
                 KeyValuePair<string, object> confirmed = province.AdditionalProperties.FirstOrDefault(z => z.Key == "confirmed");
                 KeyValuePair<string, object> deaths = province.AdditionalProperties.FirstOrDefault(z => z.Key == "deaths");
 
+                if(!string.IsNullOrEmpty(dataStadistics?.Province))
                 covid19StatisticsOutputDto.Add(new Covid19StatisticsOutputDto()
                 {
                     Cities = listCities,

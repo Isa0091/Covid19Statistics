@@ -29,12 +29,11 @@ namespace Covid19Statistics.Services
 
                  Confirmed= a.Sum(x=>x.Confirmed),
                  Deaths= a.Sum(x => x.Deaths),
-                 Name= a.First().IsoCodeRegion
+                 Name= a.First().RegionName
 
             }).ToList();
 
-            return regionStadisticsOutputDtos.OrderByDescending(z=> z.Deaths)
-                .OrderByDescending(z =>z.Confirmed).Take(10).ToList();
+            return regionStadisticsOutputDtos.OrderByDescending(z=> z.Confirmed).Take(10).ToList();
         }
 
 
@@ -47,14 +46,13 @@ namespace Covid19Statistics.Services
             provincesStadistics = listCovidStadistic.Select(a => new ProvincesStadisticsOutputDto()
             {
 
-                Confirmed = a.Cities.Sum(z=>z.Confirmed),
-                Deaths = a.Cities.Sum(z => z.Deaths),
+                Confirmed = a.Confirmed,
+                Deaths = a.Deaths,
                 Name = a.ProvinceName
 
             }).ToList();
 
-            return provincesStadistics.OrderByDescending(z => z.Deaths)
-               .OrderByDescending(z => z.Confirmed).Take(10).ToList();
+            return provincesStadistics.OrderByDescending(z => z.Confirmed).Take(10).ToList();
         }
     }
 }
