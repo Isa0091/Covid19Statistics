@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covid19Statistics", "Covid1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covid19Statistics.Web", "Covid19Statistics.Web\Covid19Statistics.Web.csproj", "{AB5223FB-4344-4384-BD76-9EA95E7DE992}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Covid19Statistics.Providers", "Covid19Statistics.Providers\Covid19Statistics.Providers.csproj", "{6B51CA9C-5C0C-45AF-9629-30DF2C828702}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AB5223FB-4344-4384-BD76-9EA95E7DE992}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB5223FB-4344-4384-BD76-9EA95E7DE992}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB5223FB-4344-4384-BD76-9EA95E7DE992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B51CA9C-5C0C-45AF-9629-30DF2C828702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B51CA9C-5C0C-45AF-9629-30DF2C828702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B51CA9C-5C0C-45AF-9629-30DF2C828702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B51CA9C-5C0C-45AF-9629-30DF2C828702}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
